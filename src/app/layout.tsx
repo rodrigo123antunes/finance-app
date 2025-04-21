@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider, UserButton } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -18,10 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${interSans.variable} dark antialiased`}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${interSans.variable} dark h-screen w-full antialiased`}
+        >
+          <header className="flex items-center justify-between bg-gray-800 p-4 text-white">
+            <UserButton showName appearance={{ baseTheme: dark }} />
+          </header>
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
